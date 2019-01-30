@@ -202,7 +202,7 @@ var model = {
 
             model.calculator.firstStep = true;    // Сброс флага
 
-            if( model.calculator.operation != 'equally' && model.calculator.current != 0){
+            if( model.calculator.operation != 'equally' ){
 
                 model.history.add('');    // Добавим к истории
 
@@ -246,20 +246,24 @@ var model = {
             
             if( model.calculator.operation == 'subtraction' ||
                 model.calculator.operation == 'equally' ||
-                model.calculator.operation == '' ){
-
+                model.calculator.operation == ''
+            ){
                 model.history.add('-');        // Добавим к истории
+                view.history.show();               // Покажем историю
+
+                if( model.calculator.firstStep ) model.calculator.memomy = model.calculator.current;
+                else   model.calculator.memomy = model.calculator.memomy - model.calculator.current;
+
+                model.calculator.firstStep = false;     // Установим флаг, что не первая операция
+                model.calculator.current = 0;           // Сброс текущего значения
             }
-            else model.history.edit('-');      // Добавим к истории
-            view.history.show();               // Покажем историю
+            else{
+                model.history.edit('-');       // Меняем последний знак
+                model.history.add('-');        // Добавим к истории
+                view.history.show();               // Покажем историю
+            };
 
             model.calculator.operation = 'subtraction';    // Установим последнее действие
-
-            if( model.calculator.firstStep ) model.calculator.memomy = model.calculator.current;
-            else   model.calculator.memomy = model.calculator.memomy - model.calculator.current;
-
-            model.calculator.firstStep = false;     // Установим флаг, что не первая операция
-            model.calculator.current = 0;           // Сброс текущего значения
 
             view.display.refresh();    // Обновляем дисплей
             view.status.clear();       // Очищаем статус
@@ -274,21 +278,25 @@ var model = {
             
             if( model.calculator.operation == 'addition' ||
                 model.calculator.operation == 'equally' ||
-                model.calculator.operation == '' ){
-
+                model.calculator.operation == ''
+            ){
                 model.history.add('+');        // Добавим к истории
+                view.history.show();           // Покажем историю
+
+                if( model.calculator.firstStep ) model.calculator.memomy = model.calculator.current;
+                else   model.calculator.memomy = model.calculator.memomy + model.calculator.current;
+
+                model.calculator.firstStep = false;     // Установим флаг, что не первая операция
+                model.calculator.current = 0;           // Сброс текущего значения
             }
-            else model.history.edit('+');      // Добавим к истории
-            view.history.show();               // Покажем историю
+            else {
+                model.history.edit('+');       // Меняем последний знак
+                // model.history.add('+');        // Добавим к истории
+                view.history.show();           // Покажем историю
+            };
 
             model.calculator.operation = 'addition';    // Установим последнее действие
 
-            if( model.calculator.firstStep ) model.calculator.memomy = model.calculator.current;
-            else   model.calculator.memomy = model.calculator.memomy + model.calculator.current;
-
-            model.calculator.firstStep = false;     // Установим флаг, что не первая операция
-            model.calculator.current = 0;           // Сброс текущего значения
-            
             view.display.refresh();    // Обновляем дисплей
             view.status.clear();       // Очищаем статус
 
