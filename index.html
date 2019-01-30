@@ -3,7 +3,7 @@
 <head>
     <title>Калькулятор</title>
     <link rel="stylesheet" type="text/css" href="css/main.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
 </head>
 <body>
 
@@ -11,6 +11,7 @@
 
 <div class="wrapper">
     <div class="content">
+        <div id="history"></div>
         <div id="status"></div>
         <div id="display"></div>
         <div class="btn-group">
@@ -56,7 +57,7 @@
                         <div id="del" class="btn" title="Удалить последний символ">&#8592;</div>
                     </div>
                     <div class="row">
-                        <div id="ce" class="btn" title="Сброс последнего числа">CE</div>
+                        <div id="ce" class="btn" title="Сброс текущего числа">CE</div>
                     </div>
                     <div class="row">
                         <div id="c" class="btn" title="Сброс операции / Очистка">C</div>
