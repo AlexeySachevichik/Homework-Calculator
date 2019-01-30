@@ -1,0 +1,116 @@
+@import "reset";
+
+$font01: #3b3b3b;
+$border01: 1px solid #dddddd;
+
+$back01: #eeeeee;
+$back02: #ffffff;
+
+$animation: 0.2s;
+$radius: 2px;
+
+$acent01: #3276b1;
+$acent02: #285e8e;
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: $font01;
+}
+
+.wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+
+    #display {
+        height: 52px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 30px;
+        font-weight: 400;
+        text-align: right;
+        border: $border01;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: $radius;
+        transition-duration: $animation;
+    }
+
+    #status {
+        height: 15px;
+        padding: 0 20px;
+        margin: 5px;
+        text-align: right;
+        font-size: 15px;
+    }
+
+    .btn {
+        cursor: pointer;
+        width: 80px;
+        padding: 12px 0;
+        margin: 5px;
+        text-align: center;
+        border: $border01;
+        background: $back02;
+        transition-duration: $animation;
+        border-radius: $radius;
+    }
+
+    .btn-group {
+
+        .row { display: flex; }
+
+        .bg-numbers {
+            .btn {
+                background: $back01;
+
+                &.none {
+                    background: $back02;
+                }
+
+                &:hover {
+                    background: $back01 - 5;
+
+                    &.none {
+                        background: $back02 - 5;
+                    }
+                }
+            }
+        }
+
+        .bg-control,
+        .bg-arithmetic {
+            .btn {
+                background: $back02;
+
+                &:hover {
+                    background: $back02 - 5;
+                }
+            }
+        }
+
+        #equally {
+            background: $acent01;
+            border: 1px solid $acent02;
+            color: $back02;
+            font-weight: 500;
+
+            &:hover {
+                background: $acent01 - 10;
+            }
+        }
+    }
+}
+
+    

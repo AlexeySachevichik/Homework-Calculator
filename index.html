@@ -3,6 +3,7 @@
 <head>
     <title>Калькулятор</title>
     <link rel="stylesheet" type="text/css" href="css/main.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
 </head>
 <body>
 
@@ -10,30 +11,71 @@
 
 <div class="wrapper">
     <div class="content">
-        <div id="display">12345</div>
+        <div id="status"></div>
+        <div id="display"></div>
         <div class="btn-group">
-            <div id="n7" class="btn">7</div>
-            <div id="n8" class="btn">8</div>
-            <div id="n9" class="btn">9</div>
-            <div id="del" class="btn">del</div>
-            <div id="n4" class="btn">4</div>
-            <div id="n5" class="btn">5</div>
-            <div id="n6" class="btn">6</div>
-            <div id="div" class="btn">/</div>
-            <div id="n1" class="btn">1</div>
-            <div id="n2" class="btn">2</div>
-            <div id="n3" class="btn">3</div>
-            <div id="mul" class="btn">*</div>
-            <div id="n0" class="btn">0</div>
-            <div id="dot" class="btn">.</div>
-            <div id="plus" class="btn">+</div>
-            <div id="minus" class="btn">-</div>
-            <div id="equally" class="btn">=</div>
+            <div class="row">
+                <div class="bg-numbers">
+                    <div class="row">
+                        <div id="n7" class="btn" title="Семь">7</div>
+                        <div id="n8" class="btn" title="Восемь">8</div>
+                        <div id="n9" class="btn" title="Девять">9</div>
+                    </div>
+                    <div class="row">
+                        <div id="n4" class="btn" title="Четыре">4</div>
+                        <div id="n5" class="btn" title="Пять">5</div>
+                        <div id="n6" class="btn" title="Шесть">6</div>
+                    </div>
+                    <div class="row">
+                        <div id="n1" class="btn" title="Один">1</div>
+                        <div id="n2" class="btn" title="Два">2</div>
+                        <div id="n3" class="btn" title="Три">3</div>
+                    </div>
+                    <div class="row">
+                        <div id="inv" class="btn none" title="Противоположный знак">&#177;</div>
+                        <div id="n0" class="btn" title="Нуль">0</div>
+                        <div id="dot" class="btn none" title="Десятичный разделитель">,</div>
+                    </div>
+                </div>
+                <div class="bg-arithmetic">
+                    <div class="row">
+                        <div id="div" class="btn" title="Деление">&#247;</div>
+                    </div>
+                    <div class="row">
+                        <div id="mul" class="btn" title="Умножение">&#215;</div>
+                    </div>
+                    <div class="row">
+                        <div id="minus" class="btn" title="Вычитание">-</div>
+                    </div>
+                    <div class="row">
+                        <div id="plus" class="btn" title="Сложение">+</div>
+                    </div>
+                </div>
+                <div class="bg-control">
+                    <div class="row">
+                        <div id="del" class="btn" title="Удалить последний символ">&#8592;</div>
+                    </div>
+                    <div class="row">
+                        <div id="ce" class="btn" title="Сброс последнего числа">CE</div>
+                    </div>
+                    <div class="row">
+                        <div id="c" class="btn" title="Сброс операции / Очистка">C</div>
+                    </div>
+                    <div class="row">
+                        <div id="equally" class="btn" title="Получить результат">=</div>
+                    </div>
+                </div>
+        
+                
+                
+            </div>
+            
+
         </div>
     </div>
 </div>
 
 
-<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
