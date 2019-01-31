@@ -100,20 +100,39 @@ body {
           align-items: center;
 }
 
+.content {
+  position: relative;
+}
 .content #display {
-  height: 52px;
+  display: block;
+  width: 100%;
   font-family: 'Roboto', sans-serif;
   font-size: 30px;
   font-weight: 400;
   text-align: right;
   border: 1px solid #dddddd;
   padding: 10px 20px;
-  margin: 5px;
   border-radius: 2px;
   -webkit-transition-duration: 0.2s;
           transition-duration: 0.2s;
 }
-.content #history,
+.content #history {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  max-width: 450px;
+  max-height: 400px;
+  min-height: 40px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 5px 20px;
+  text-align: right;
+  font-size: 15px;
+}
+.content #history b {
+  font-weight: 700;
+}
 .content #status {
   height: 15px;
   padding: 0 20px;
@@ -121,7 +140,6 @@ body {
   text-align: right;
   font-size: 15px;
 }
-.content #history b,
 .content #status b {
   font-weight: 700;
 }

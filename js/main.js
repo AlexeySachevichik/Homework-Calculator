@@ -3,8 +3,8 @@ var view = {
     display: {
         item: document.getElementById('display'),
 
-        refresh: function(){ // Выводим текущее значение
-            view.display.item.innerHTML = model.calculator.current;
+        show: function( message ){ // Вывод на дисплей значения
+            view.display.item.value = message;
         },
     },
 
@@ -50,16 +50,16 @@ var view = {
     },
 
     arithmetic: {
-        division: document.getElementById('div'),
+        division:       document.getElementById('div'),
         multiplication: document.getElementById('mul'),
-        subtraction: document.getElementById('minus'),
-        addition: document.getElementById('plus'),
+        subtraction:    document.getElementById('minus'),
+        addition:       document.getElementById('plus'),
     },
 
     control: {
-        delete: document.getElementById('del'),
-        pop: document.getElementById('ce'),
-        clear: document.getElementById('c'),
+        delete:  document.getElementById('del'),
+        pop:     document.getElementById('ce'),
+        clear:   document.getElementById('c'),
         equally: document.getElementById('equally'),
     },
 };
@@ -70,166 +70,179 @@ var view = {
 
 var model = {
 
-    display: {
-        clear: function(){
-            model.calculator.current = 0;
-            model.calculator.memomy = 0;
-            model.calculator.result = 0;
-            model.calculator.operation = '';
-            model.calculator.history = '';
+    current: 0,         // Текущее значение
+    memomy: 0,          // Результат предыдущих операций
+    result: 0,          // Результат
+    limit: 15,          // Лимит на использование знаков
+    operation: '',      // Последняя операция
+    history: '',        // Строка со значениями и операциями
+    firstStep: true,    // Флаг первого использования операции
+    
+    
 
-            view.display.refresh();         // Обновляем дисплей
-            view.status.clear();            // Очищаем статус
-            view.history.clear();            // Очищаем историю
-        },
+    isNumeric: function(i){ // Проверка на число
+        
+        return !isNaN(parseFloat(i)) && isFinite(i);
     },
 
-    history: {
-        add: function(s){ // Добавим значение в историю
-            if( model.calculator.current < 0 ){
-                model.calculator.history += '(' + model.calculator.current + ') ' + s + ' ';
-            }
-            else{
-                model.calculator.history += model.calculator.current + ' ' + s + ' ';
-            };
-        },
+    reset: function(){ // Сброс всех значений, обновление дисплея и истории
 
-        finish: function(){ // Добавим последнее значение в историю и покажем результат
-            var h = model.calculator.history.slice(0, model.calculator.history.length - 2);
-            model.calculator.history = h + ' = <b>' + model.calculator.current + '</b>';
-        },
+        model.current = 0;
+        model.memory = 0;
+        model.result = 0;
+        model.operation = '';
+        model.firstStep = true;
 
-        edit: function(s){ // Добавим значение в историю с заменой знака
-            var h = model.calculator.history.slice(0, model.calculator.history.length - 2);
-            model.calculator.history = h + s + ' ';
-        },
-
-        clear: function(){ // Очистим историю
-            model.calculator.history = '';
-        },
+        view.display.show( model.current ); // Выводим текущее значение
+        view.status.clear();                // Очищаем статус
+        model.log.clear();                  // Очищаем переменную истории
+        view.history.clear();               // Очищаем историю 
     },
 
-    calculator: {
+    resetCurrent: function(){ // Сброс текущего значения
+        model.current = 0;
 
-        current: 0,
-        memomy: 0,
-        result: 0,
-        firstStep: true,
-        operation: '',
-        history: '',
-        limit: 15,
+        view.display.show( model.current );  // Выводим текущее значение
+        view.status.clear();                 // Очищаем статус
+    },
 
-        length: function(){
+    length: function(){ // Посчитаем количество цифр в текущем значении
 
-            return (model.calculator.current + '').replace('.', '').replace('-', '').length;
-        },
+        return (model.current + '').length;
+        // return (model.current + '').replace('.', '').replace('-', '').length;
+    },
 
-        push: function(i){
-            if( model.calculator.length() < model.calculator.limit ){
-                
-                if( model.calculator.current === 0 ){
-                    model.calculator.current = +i;
-                    view.display.refresh();         // Обновляем дисплей
-                    view.status.clear();            // Очищаем статус
-                }
-                else {
-                    model.calculator.current = +(model.calculator.current + '' + i);
-                    view.display.refresh();         // Обновляем дисплей
-                    view.status.clear();            // Очищаем статус
-                };
+    push: function(i){ // Добавим цифру к текущему значению
+
+        if( model.length() < model.limit ){
+
+            // Если текущее число равно нулю
+            if( model.current == 0 ){
+
+                // то просто заменим значение на переданное
+                model.current = i;
             }
             else {
-                view.status.show("Ограничение колличества знаков");
+
+                // Текущее значение преобразуем в строку
+                // и в конец добавим переданную цифру
+                model.current = model.current + '' + i;
             };
-        },
 
-        pop: function(){
-            model.calculator.current = 0;
+            view.display.show( model.current ); // Обновляем дисплей
+            view.status.clear();                // Очищаем статус
+        }
+        else view.status.show("Ограничение колличества знаков");
+    },
 
-            view.display.refresh();        // Обновляем дисплей
-            view.status.clear();           // Очищаем статус
-        },
+    delete: function(){ // Удалим последнюю цифру текущего значения
 
-        delete: function(){
+        // Если текущее значенее отлично от нуля или не пустое
+        if( model.current != 0 || model.current != '' ){
 
-            if( model.calculator.current != 0 ){
-                var str = (model.calculator.current + '').slice(0, model.calculator.length() - 1);
+            // Текущее значение переведем в строку
+            // и удалим последний символ, и преобразуем обратно в число
+            var str = (model.current + '').slice(0, model.length() - 1);
 
-                model.calculator.current = +str;
+            // Проверим на возможные ошибки
+            if( isNaN(str) ) model.current = 0;
+            // else if( +str == 0 && str.length > 1) model.current = str.slice(0, str.length - 1);
+            else model.current = str;
 
-                if( model.calculator.current == NaN ||
-                    model.calculator.current == 0 ||
-                    model.calculator.current == false ||
-                    model.calculator.current == '' ||
-                    model.calculator.current == '-' ||
-                    model.calculator.current == undefined
-                ){
-                    model.calculator.current = 0;
-                };
+            view.display.show( model.current ); // Обновляем дисплей
+            view.status.clear();                // Очищаем статус
+        }
+        else{
+            view.status.show("Очистка завершена");
+        };
+    },
 
-                view.display.refresh();    // Обновляем дисплей
-                view.status.clear();       // Очищаем статус
-            }
-            else{
-                view.status.show("Очистка завершена");
-            };
+    inversion: function(){ // Замена на противоположный знак
+
+        // Если текущее значенее отлично от нуля
+        if( model.current != 0 ){
+
+            // Текущее значение умножаем на минус один
+            model.current *= -1;
+
+            view.display.show( model.current ); // Обновляем дисплей
+            view.status.clear();                // Очищаем статус
+        }
+        else view.status.show("Нулю не может быть присвоен никакой знак");
+    },
+
+    decimal: function(){ // Установка десятичного разделителя
+
+        // Если в текущем значении нет разделителя то добавим его
+        if( (model.current + '').indexOf('.') == -1 ){
+
+            model.current += '.';
+
+            view.display.show( model.current ); // Обновляем дисплей
+            view.status.clear();                // Очищаем статус
+        }
+        else view.status.show("Число уже имеет десятичный знак");
+    },
+
+    log: {
+        add: function(symbol){ // Добавим значение в переменную истории
             
+            // Если текущее значение отрицательное, то обвернем его в скобки
+            if( model.current < 0 ) model.history += '(' + model.current + ') ' + symbol + ' ';
+            else model.history += model.current + ' ' + symbol + ' ';
         },
 
-        inversion: function(){
-            if( model.calculator.current != 0 ){
-                model.calculator.current *= -1;
-                view.display.refresh();    // Обновляем дисплей
-                view.status.clear();       // Очищаем статус
-            }
-            else{
-                view.status.show("Нулю не может быть присвоен никакой знак");
-            };
+        edit: function(symbol){ // Смена знака операции
+            var str = model.history.slice(0, model.history.length - 2);
+            model.history = str + symbol + ' ';
         },
 
-        decimal: function(){
-            if( (model.calculator.current + '').indexOf('.') == -1 ){
-                model.calculator.current += '.';
-                view.display.refresh();    // Обновляем дисплей
-                view.status.clear();       // Очищаем статус
-            }
-            else{
-                view.status.show("Число уже имеет десятичный знак");
-            };
+        finish: function(){ // Добавим текущее значение в историю и покажем результат
+            var str = model.history.slice(0, model.history.length - 2);
+            model.history = str + ' = <b>' + model.result + '</b>';
         },
 
-        equally: function(){
-
-            model.calculator.firstStep = true;    // Сброс флага
-
-            if( model.calculator.operation != 'equally' ){
-
-                model.history.add('');    // Добавим к истории
-
-                console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
-
-                if( model.calculator.operation == 'addition' ){
-                    model.calculator.result  = model.calculator.memomy + model.calculator.current;
-                }
-
-                else if( model.calculator.operation == 'subtraction' ){
-                    model.calculator.result  = model.calculator.memomy - model.calculator.current;
-                };
-
-                model.calculator.memomy  = 0;
-                model.calculator.current = model.calculator.result;
-
-                console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
-
-                model.history.finish(); // Закончим историю
-                view.display.refresh(); // Обновляем дисплей
-                view.history.show();    // Покажем историю
-                model.history.clear();  // Очистим значение истории
-
-                model.calculator.operation = 'equally';    // Установим последнее действие
-            };
+        clear: function(){ // Очистим переменную истории
+            
+            model.history = '';
         },
     },
+
+
+
+
+
+    equally: function(){
+
+        model.calculator.firstStep = true;    // Сброс флага
+
+        if( model.calculator.operation != 'equally' ){
+
+            model.history.add('');    // Добавим к истории
+
+            if( model.calculator.operation == 'addition' ){
+                model.calculator.result  += model.calculator.current;
+            }
+
+            else if( model.calculator.operation == 'subtraction' ){
+                model.calculator.result  -=  model.calculator.current;
+            };
+
+            model.calculator.memomy  = 0;
+            model.calculator.current = model.calculator.result;
+
+            model.history.finish(); // Закончим историю
+            view.display.refresh(); // Обновляем дисплей
+            view.history.show();    // Покажем историю
+            model.history.clear();  // Очистим значение истории
+
+            model.calculator.operation = 'equally';    // Установим последнее действие
+        };
+    },
+
+
+
+
 
     arithmetic: {
         division: function(){ // Деление
@@ -241,66 +254,124 @@ var model = {
         },
 
         subtraction: function(){ // Вычитание
-
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy);
+            console.log("----Вычитание--------------------------------");
+            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
             
-            if( model.calculator.operation == 'subtraction' ||
-                model.calculator.operation == 'equally' ||
-                model.calculator.operation == ''
-            ){
+            // Если запустили в первый раз
+            if( model.calculator.firstStep ){
+
                 model.history.add('-');        // Добавим к истории
-                view.history.show();               // Покажем историю
+                view.history.show();           // Покажем историю
 
-                if( model.calculator.firstStep ) model.calculator.memomy = model.calculator.current;
-                else   model.calculator.memomy = model.calculator.memomy - model.calculator.current;
+                // В памать передадим текущее занчение
+                model.calculator.memomy = model.calculator.current;
 
-                model.calculator.firstStep = false;     // Установим флаг, что не первая операция
-                model.calculator.current = 0;           // Сброс текущего значения
+                // Сбросим текущее значение
+                model.calculator.current = 0;           
             }
-            else{
-                model.history.edit('-');       // Меняем последний знак
+
+            // Если предидущая операция была вычетание
+            else if( model.calculator.operation == 'subtraction' ){
+
                 model.history.add('-');        // Добавим к истории
-                view.history.show();               // Покажем историю
+                view.history.show();           // Покажем историю
+
+                // К значению памяти прибавим текущее занчение
+                model.calculator.memomy -= model.calculator.current;
+
+                // Сбросим текущее значение
+                model.calculator.current = 0;
+            }
+
+            // Если до этого была другая операция
+            else {
+
+                console.log('Другая операция');
+
+                model.history.edit('-');       // Меняем последний знак
+
+                if(  model.calculator.current != 0 ){
+                    model.history.add('-');        // Добавим к истории
+
+                    // К значению памяти прибавим текущее занчение
+                    model.calculator.memomy -= model.calculator.current;
+
+                    // Сбросим текущее значение
+                    model.calculator.current = 0;
+                };
+
+                view.history.show();           // Покажем историю
             };
 
             model.calculator.operation = 'subtraction';    // Установим последнее действие
+            model.calculator.firstStep = false;         // Установим флаг, что не первая операция
 
             view.display.refresh();    // Обновляем дисплей
             view.status.clear();       // Очищаем статус
 
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy);
+            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
+            console.log("---------------------------------------------");
         },
 
 
         addition: function(){ // Сложение
+            console.log("----Сложение---------------------------------");
+            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
             
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy);
-            
-            if( model.calculator.operation == 'addition' ||
-                model.calculator.operation == 'equally' ||
-                model.calculator.operation == ''
-            ){
+            // Если запустили в первый раз
+            if( model.calculator.firstStep ){
+
                 model.history.add('+');        // Добавим к истории
                 view.history.show();           // Покажем историю
 
-                if( model.calculator.firstStep ) model.calculator.memomy = model.calculator.current;
-                else   model.calculator.memomy = model.calculator.memomy + model.calculator.current;
+                // В памать передадим текущее занчение
+                model.calculator.memomy = model.calculator.current;
 
-                model.calculator.firstStep = false;     // Установим флаг, что не первая операция
-                model.calculator.current = 0;           // Сброс текущего значения
+                // Сбросим текущее значение
+                model.calculator.current = 0;
             }
+
+            // Если предидущая операция было сложене
+            else if( model.calculator.operation == 'addition' ){
+
+                model.history.add('+');        // Добавим к истории
+                view.history.show();           // Покажем историю
+
+                // К значению памяти прибавим текущее занчение
+                model.calculator.memomy += model.calculator.current;
+
+                // Сбросим текущее значение
+                model.calculator.current = 0;
+            }
+
+            // Если до этого была другая операция
             else {
+
+                console.log('Другая операция');
+
                 model.history.edit('+');       // Меняем последний знак
-                // model.history.add('+');        // Добавим к истории
+
+                if(  model.calculator.current != 0 ){
+                    model.history.add('+');        // Добавим к истории
+
+                    // К значению памяти прибавим текущее занчение
+                    model.calculator.memomy += model.calculator.current;
+
+                    // Сбросим текущее значение
+                    model.calculator.current = 0;
+                };
+
                 view.history.show();           // Покажем историю
             };
 
             model.calculator.operation = 'addition';    // Установим последнее действие
+            model.calculator.firstStep = false;         // Установим флаг, что не первая операция
 
-            view.display.refresh();    // Обновляем дисплей
-            view.status.clear();       // Очищаем статус
+            view.display.memory();    // Обновляем дисплей
+            view.status.clear();      // Очищаем статус
 
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy);
+            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
+            console.log("---------------------------------------------");
         },
     },
 };
@@ -314,17 +385,17 @@ var controller = {
     numbers: {
         push: function(e){
             var i = e.target.innerHTML;    // Получим значение с кнопки
-            model.calculator.push(i);       // Добавляем значение к текущему числу 
+            model.push(i);                 // Добавляем значение к текущему числу 
         },
-        inversion: function(){ model.calculator.inversion(); },     // Меняем знак на противоположный
-        decimal: function(){ model.calculator.decimal(); },         // Добавляем десятичную запятую
+        inversion: function(){ model.inversion(); },    // Меняем знак на противоположный
+        decimal:   function(){ model.decimal(); },      // Добавляем десятичную запятую
     },
 
     control: {
-        delete:  function(){ model.calculator.delete(); },   // Удаляем последний символ
-        pop:     function(){ model.calculator.pop(); },      // Удаляем текущее значение
-        clear:   function(){ model.display.clear(); },       // Сброс значений
-        equally: function(){ model.calculator.equally(); },  // Подсчет результатов
+        delete:  function(){ model.delete(); },         // Удаляем последний символ
+        pop:     function(){ model.resetCurrent(); },   // Сбрасываем текущее значение
+        clear:   function(){ model.reset(); },          // Сброс всех значений
+        equally: function(){ model.equally(); },        // Подсчет результатов
     },
 
     arithmetic: {
@@ -345,9 +416,8 @@ var controller = {
          * ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
          */
         init: function(){
-            model.display.clear();      // Сброс значений
-
-            this.event();
+            model.reset();  // Сброс значений
+            this.event();   // Инициализация событий
         },
         event: function(){
 
@@ -373,7 +443,7 @@ var controller = {
 
 
             view.control.delete.addEventListener('click',  controller.control.delete );
-            view.control.pop.addEventListener('click',  controller.control.pop );
+            view.control.pop.addEventListener('click',     controller.control.pop );
             view.control.clear.addEventListener('click',   controller.control.clear );
             view.control.equally.addEventListener('click', controller.control.equally );
         },
