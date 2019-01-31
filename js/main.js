@@ -146,7 +146,6 @@ var model = {
 
             // Проверим на возможные ошибки
             if( isNaN(str) ) model.current = 0;
-            // else if( +str == 0 && str.length > 1) model.current = str.slice(0, str.length - 1);
             else model.current = str;
 
             view.display.show( model.current ); // Обновляем дисплей
