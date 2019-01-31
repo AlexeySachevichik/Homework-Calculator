@@ -112,6 +112,7 @@ body {
   text-align: right;
   border: 1px solid #dddddd;
   padding: 10px 20px;
+  margin-bottom: 5px;
   border-radius: 2px;
   -webkit-transition-duration: 0.2s;
           transition-duration: 0.2s;
@@ -134,9 +135,9 @@ body {
   font-weight: 700;
 }
 .content #status {
-  height: 15px;
-  padding: 0 20px;
-  margin: 5px;
+  height: 26px;
+  padding: 5px 20px;
+  margin-bottom: 5px;
   text-align: right;
   font-size: 15px;
 }
@@ -147,7 +148,7 @@ body {
   cursor: pointer;
   width: 80px;
   padding: 12px 0;
-  margin: 5px;
+  /*margin: 5px;*/
   text-align: center;
   border: 1px solid #dddddd;
   background: #ffffff;
@@ -159,6 +160,46 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+.content .btn-group .bg-memory,
+.content .btn-group .bg-numbers,
+.content .btn-group .bg-control,
+.content .btn-group .bg-arithmetic {
+  margin-right: 5px;
+}
+.content .btn-group .bg-memory .row,
+.content .btn-group .bg-numbers .row,
+.content .btn-group .bg-control .row,
+.content .btn-group .bg-arithmetic .row {
+  margin-bottom: 5px;
+}
+.content .btn-group .bg-memory .row:last-child,
+.content .btn-group .bg-numbers .row:last-child,
+.content .btn-group .bg-control .row:last-child,
+.content .btn-group .bg-arithmetic .row:last-child {
+  margin-bottom: 0;
+}
+.content .btn-group .bg-memory .row .btn,
+.content .btn-group .bg-numbers .row .btn,
+.content .btn-group .bg-control .row .btn,
+.content .btn-group .bg-arithmetic .row .btn {
+  margin-right: 5px;
+}
+.content .btn-group .bg-memory .row .btn:last-child,
+.content .btn-group .bg-numbers .row .btn:last-child,
+.content .btn-group .bg-control .row .btn:last-child,
+.content .btn-group .bg-arithmetic .row .btn:last-child {
+  margin-right: 0;
+}
+.content .btn-group .bg-memory,
+.content .btn-group .bg-control {
+  margin-right: 0;
+}
+.content .btn-group .bg-memory {
+  display: none;
+}
+.content .btn-group .bg-memory .row {
+  margin-bottom: 5px !important;
 }
 .content .btn-group .bg-numbers .btn {
   background: #eeeeee;

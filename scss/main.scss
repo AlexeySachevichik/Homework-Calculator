@@ -45,6 +45,7 @@ body {
         text-align: right;
         border: $border01;
         padding: 10px 20px;
+        margin-bottom: 5px;
 
         border-radius: $radius;
         transition-duration: $animation;
@@ -70,9 +71,9 @@ body {
     }
 
     #status {
-        height: 15px;
-        padding: 0 20px;
-        margin: 5px;
+        height: 26px;
+        padding: 5px 20px;
+        margin-bottom: 5px;
         text-align: right;
         font-size: 15px;
 
@@ -85,7 +86,7 @@ body {
         cursor: pointer;
         width: 80px;
         padding: 12px 0;
-        margin: 5px;
+        /*margin: 5px;*/
         text-align: center;
         border: $border01;
         background: $back02;
@@ -97,7 +98,40 @@ body {
 
         .row { display: flex; }
 
+        .bg-memory,
+        .bg-numbers,
+        .bg-control,
+        .bg-arithmetic {
+            margin-right: 5px;
+
+            .row {
+                margin-bottom: 5px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .btn {
+                    margin-right: 5px;
+                    &:last-child { margin-right: 0; }
+                }
+            }
+        }
+        .bg-memory,
+        .bg-control {
+            margin-right: 0;
+        }
+
+        .bg-memory{
+            display: none;
+            
+            .row {
+                margin-bottom: 5px !important;
+            }
+        }
+
+
         .bg-numbers {
+
             .btn {
                 background: $back01;
 
@@ -114,6 +148,7 @@ body {
                 }
             }
         }
+
 
         .bg-control,
         .bg-arithmetic {

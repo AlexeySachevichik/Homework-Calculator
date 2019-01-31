@@ -117,7 +117,7 @@ var model = {
         if( model.length() < model.limit ){
 
             // Если текущее число равно нулю
-            if( model.current == 0 ){
+            if( model.current === 0 ){
 
                 // то просто заменим значение на переданное
                 model.current = i;
@@ -138,14 +138,14 @@ var model = {
     delete: function(){ // Удалим последнюю цифру текущего значения
 
         // Если текущее значенее отлично от нуля или не пустое
-        if( model.current != 0 || model.current != '' ){
+        if( model.current != 0 || model.current != '0' ){
 
             // Текущее значение переведем в строку
             // и удалим последний символ, и преобразуем обратно в число
             var str = (model.current + '').slice(0, model.length() - 1);
 
             // Проверим на возможные ошибки
-            if( isNaN(str) ) model.current = 0;
+            if( isNaN(str) || str == "") model.current = 0;
             else model.current = str;
 
             view.display.show( model.current ); // Обновляем дисплей
@@ -159,10 +159,24 @@ var model = {
     inversion: function(){ // Замена на противоположный знак
 
         // Если текущее значенее отлично от нуля
-        if( model.current != 0 ){
+        if( model.current != 0 || model.current != '0' ){
 
-            // Текущее значение умножаем на минус один
-            model.current *= -1;
+            // Если тип текущего числа Number
+            if( typeof model.current == "number" ){
+                
+                // Текущее значение умножаем на минус один
+                model.current *= -1;
+            }
+            // Если тип текущего числа String
+            else if( typeof model.current == "string" ){
+
+                // Если первым символом идет знак "-"
+                // то удалим его
+                if( model.current[0] == '-' ){
+                    model.current = model.current.slice(1);
+                }
+                else model.current = '-' + model.current;
+            };
 
             view.display.show( model.current ); // Обновляем дисплей
             view.status.clear();                // Очищаем статус
