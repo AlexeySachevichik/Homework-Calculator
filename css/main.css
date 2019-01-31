@@ -103,6 +103,17 @@ body {
 .content {
   position: relative;
 }
+.content #test {
+  max-width: 450px;
+  font-family: monospace;
+  margin-top: 40px;
+  font-weight: 400;
+  font-size: 16px;
+}
+.content #test b {
+  font-size: 18px;
+  font-weight: 700;
+}
 .content #display {
   display: block;
   width: 100%;

@@ -1,5 +1,21 @@
 var view = {
 
+    test: {
+        item: document.getElementById('test'),
+
+        show: function(){ // Выводим на экран используемые переменные
+            var log = '';
+
+            log += '<b>firstStep</b>&#160;&#60;' + typeof(model.firstStep) + '&#62;&#160;&#160;' + model.firstStep + '<br>';
+            log += '<b>current</b>&#160;&#60;'   + typeof(model.current)   + '&#62;&#160;&#160;&#160;&#160;&#160;' + model.current + '<br>';
+            log += '<b>memory</b>&#160;&#60;'    + typeof(model.memory)    + '&#62;&#160;&#160;&#160;&#160;&#160;&#160;' + model.memory + '<br>';
+            log += '<b>result</b>&#160;&#60;'    + typeof(model.result)    + '&#62;&#160;&#160;&#160;&#160;&#160;&#160;' + model.result + '<br>';
+            log += '<b>operation</b>&#160;&#60;' + typeof(model.operation) + '&#62;&#160;&#160;&#160;' + model.operation + '<br>';
+
+            view.test.item.innerHTML = log;
+        },
+    },
+
     display: {
         item: document.getElementById('display'),
 
@@ -13,7 +29,7 @@ var view = {
         item: document.getElementById('history'),
 
         show: function(){ // Выводим историю
-            view.history.item.innerHTML = model.calculator.history;
+            view.history.item.innerHTML = model.history;
         },
 
         clear: function(){
@@ -71,7 +87,7 @@ var view = {
 var model = {
 
     current: 0,         // Текущее значение
-    memomy: 0,          // Результат предыдущих операций
+    memory: 0,          // Результат предыдущих операций
     result: 0,          // Результат
     limit: 15,          // Лимит на использование знаков
     operation: '',      // Последняя операция
@@ -96,7 +112,9 @@ var model = {
         view.display.show( model.current ); // Выводим текущее значение
         view.status.clear();                // Очищаем статус
         model.log.clear();                  // Очищаем переменную истории
-        view.history.clear();               // Очищаем историю 
+        view.history.clear();               // Очищаем историю
+
+        view.test.show(); // Покажем Debug
     },
 
     resetCurrent: function(){ // Сброс текущего значения
@@ -104,6 +122,8 @@ var model = {
 
         view.display.show( model.current );  // Выводим текущее значение
         view.status.clear();                 // Очищаем статус
+
+        view.test.show(); // Покажем Debug
     },
 
     length: function(){ // Посчитаем количество цифр в текущем значении
@@ -117,7 +137,7 @@ var model = {
         if( model.length() < model.limit ){
 
             // Если текущее число равно нулю
-            if( model.current === 0 ){
+            if( model.current === 0 || model.current == '0' ){
 
                 // то просто заменим значение на переданное
                 model.current = i;
@@ -133,6 +153,8 @@ var model = {
             view.status.clear();                // Очищаем статус
         }
         else view.status.show("Ограничение колличества знаков");
+
+        view.test.show(); // Покажем Debug
     },
 
     delete: function(){ // Удалим последнюю цифру текущего значения
@@ -154,6 +176,8 @@ var model = {
         else{
             view.status.show("Очистка завершена");
         };
+
+        view.test.show(); // Покажем Debug
     },
 
     inversion: function(){ // Замена на противоположный знак
@@ -182,6 +206,8 @@ var model = {
             view.status.clear();                // Очищаем статус
         }
         else view.status.show("Нулю не может быть присвоен никакой знак");
+
+        view.test.show(); // Покажем Debug
     },
 
     decimal: function(){ // Установка десятичного разделителя
@@ -195,6 +221,8 @@ var model = {
             view.status.clear();                // Очищаем статус
         }
         else view.status.show("Число уже имеет десятичный знак");
+
+        view.test.show(); // Покажем Debug
     },
 
     log: {
@@ -241,7 +269,7 @@ var model = {
                 model.calculator.result  -=  model.calculator.current;
             };
 
-            model.calculator.memomy  = 0;
+            model.calculator.memory  = 0;
             model.calculator.current = model.calculator.result;
 
             model.history.finish(); // Закончим историю
@@ -268,7 +296,7 @@ var model = {
 
         subtraction: function(){ // Вычитание
             console.log("----Вычитание--------------------------------");
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
+            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memory, model.calculator.result);
             
             // Если запустили в первый раз
             if( model.calculator.firstStep ){
@@ -277,7 +305,7 @@ var model = {
                 view.history.show();           // Покажем историю
 
                 // В памать передадим текущее занчение
-                model.calculator.memomy = model.calculator.current;
+                model.calculator.memory = model.calculator.current;
 
                 // Сбросим текущее значение
                 model.calculator.current = 0;           
@@ -290,7 +318,7 @@ var model = {
                 view.history.show();           // Покажем историю
 
                 // К значению памяти прибавим текущее занчение
-                model.calculator.memomy -= model.calculator.current;
+                model.calculator.memory -= model.calculator.current;
 
                 // Сбросим текущее значение
                 model.calculator.current = 0;
@@ -307,7 +335,7 @@ var model = {
                     model.history.add('-');        // Добавим к истории
 
                     // К значению памяти прибавим текущее занчение
-                    model.calculator.memomy -= model.calculator.current;
+                    model.calculator.memory -= model.calculator.current;
 
                     // Сбросим текущее значение
                     model.calculator.current = 0;
@@ -322,69 +350,71 @@ var model = {
             view.display.refresh();    // Обновляем дисплей
             view.status.clear();       // Очищаем статус
 
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
+            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memory, model.calculator.result);
             console.log("---------------------------------------------");
         },
 
 
         addition: function(){ // Сложение
             console.log("----Сложение---------------------------------");
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
+            console.log( 'model.firstStep', model.firstStep );
+            console.log( 'model.current', model.current );
+            console.log( 'model.memory', model.memory );
+            console.log( 'model.result', model.result );
+
             
             // Если запустили в первый раз
-            if( model.calculator.firstStep ){
+            if( model.firstStep ){
 
-                model.history.add('+');        // Добавим к истории
+                model.log.add('+');        // Добавим к истории
                 view.history.show();           // Покажем историю
 
                 // В памать передадим текущее занчение
-                model.calculator.memomy = model.calculator.current;
+                model.memory = +model.current;
 
                 // Сбросим текущее значение
-                model.calculator.current = 0;
+                model.current = 0;
             }
 
-            // Если предидущая операция было сложене
-            else if( model.calculator.operation == 'addition' ){
+            // Если предыдущая операция была сложение
+            else if( model.operation == 'addition' && model.current !== 0 ){
 
-                model.history.add('+');        // Добавим к истории
+                model.log.add('+');        // Добавим к истории
                 view.history.show();           // Покажем историю
 
                 // К значению памяти прибавим текущее занчение
-                model.calculator.memomy += model.calculator.current;
+                model.memory += +model.current;
 
                 // Сбросим текущее значение
-                model.calculator.current = 0;
+                model.current = 0;
             }
 
             // Если до этого была другая операция
             else {
 
-                console.log('Другая операция');
+                model.log.edit('+');       // Меняем последний знак
 
-                model.history.edit('+');       // Меняем последний знак
-
-                if(  model.calculator.current != 0 ){
-                    model.history.add('+');        // Добавим к истории
+                if( model.current != 0 ){
+                    model.log.add('+');        // Добавим к истории
 
                     // К значению памяти прибавим текущее занчение
-                    model.calculator.memomy += model.calculator.current;
+                    model.memory += +model.current;
 
                     // Сбросим текущее значение
-                    model.calculator.current = 0;
+                    model.current = 0;
                 };
 
                 view.history.show();           // Покажем историю
             };
 
-            model.calculator.operation = 'addition';    // Установим последнее действие
-            model.calculator.firstStep = false;         // Установим флаг, что не первая операция
+            model.operation = 'addition';    // Установим последнее действие
+            model.firstStep = false;         // Установим флаг, что не первая операция
 
-            view.display.memory();    // Обновляем дисплей
-            view.status.clear();      // Очищаем статус
-
-            console.log( model.calculator.firstStep, model.calculator.current, model.calculator.memomy, model.calculator.result);
-            console.log("---------------------------------------------");
+            console.log( model.memory );
+            view.display.show( model.memory );  // Показываем результат
+            view.status.clear();                // Очищаем статус
+            
+            view.test.show(); // Покажем Debug
         },
     },
 };
@@ -429,7 +459,8 @@ var controller = {
          * ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
          */
         init: function(){
-            model.reset();  // Сброс значений
+            model.reset();    // Сброс значений
+
             this.event();   // Инициализация событий
         },
         event: function(){
