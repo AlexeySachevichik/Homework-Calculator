@@ -1,0 +1,210 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.clearfix::after {
+  display: block;
+  content: "";
+  clear: both; }
+
+input, select, textarea, button {
+  outline: none; }
+
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-overflow-style: scrollbar; }
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+@-ms-viewport {
+  width: device-width; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #3b3b3b; }
+
+.wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.content {
+  position: relative; }
+  .content #variables {
+    max-width: 450px;
+    font-family: monospace;
+    margin-top: 40px;
+    font-weight: 400;
+    font-size: 16px; }
+    .content #variables b {
+      font-size: 18px;
+      font-weight: 700; }
+  .content #display {
+    display: block;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    text-align: right;
+    border: 1px solid #dddddd;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+    -webkit-transition-duration: 0.2s;
+         -o-transition-duration: 0.2s;
+            transition-duration: 0.2s; }
+  .content #history {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    max-width: 450px;
+    max-height: 400px;
+    min-height: 40px;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 5px 20px;
+    text-align: right;
+    font-size: 15px; }
+    .content #history b {
+      font-weight: 700; }
+  .content #status {
+    height: 26px;
+    padding: 5px 20px;
+    margin-bottom: 5px;
+    text-align: right;
+    font-size: 15px; }
+    .content #status b {
+      font-weight: 700; }
+  .content .btn {
+    cursor: pointer;
+    width: 80px;
+    padding: 12px 0;
+    /*margin: 5px;*/
+    text-align: center;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    -webkit-transition-duration: 0.2s;
+         -o-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+    border-radius: 2px; }
+  .content .btn-group .row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+  .content .btn-group .bg-memory,
+  .content .btn-group .bg-numbers,
+  .content .btn-group .bg-control,
+  .content .btn-group .bg-arithmetic {
+    margin-right: 5px; }
+    .content .btn-group .bg-memory .row,
+    .content .btn-group .bg-numbers .row,
+    .content .btn-group .bg-control .row,
+    .content .btn-group .bg-arithmetic .row {
+      margin-bottom: 5px; }
+      .content .btn-group .bg-memory .row:last-child,
+      .content .btn-group .bg-numbers .row:last-child,
+      .content .btn-group .bg-control .row:last-child,
+      .content .btn-group .bg-arithmetic .row:last-child {
+        margin-bottom: 0; }
+      .content .btn-group .bg-memory .row .btn,
+      .content .btn-group .bg-numbers .row .btn,
+      .content .btn-group .bg-control .row .btn,
+      .content .btn-group .bg-arithmetic .row .btn {
+        margin-right: 5px; }
+        .content .btn-group .bg-memory .row .btn:last-child,
+        .content .btn-group .bg-numbers .row .btn:last-child,
+        .content .btn-group .bg-control .row .btn:last-child,
+        .content .btn-group .bg-arithmetic .row .btn:last-child {
+          margin-right: 0; }
+  .content .btn-group .bg-memory,
+  .content .btn-group .bg-control {
+    margin-right: 0; }
+  .content .btn-group .bg-memory {
+    display: none; }
+    .content .btn-group .bg-memory .row {
+      margin-bottom: 5px !important; }
+  .content .btn-group .bg-numbers .btn {
+    background: #eeeeee; }
+    .content .btn-group .bg-numbers .btn.none {
+      background: #ffffff; }
+    .content .btn-group .bg-numbers .btn:hover {
+      background: #e9e9e9; }
+      .content .btn-group .bg-numbers .btn:hover.none {
+        background: #fafafa; }
+  .content .btn-group .bg-control .btn,
+  .content .btn-group .bg-arithmetic .btn {
+    background: #ffffff; }
+    .content .btn-group .bg-control .btn:hover,
+    .content .btn-group .bg-arithmetic .btn:hover {
+      background: #fafafa; }
+  .content .btn-group #equally {
+    background: #3276b1;
+    border: 1px solid #285e8e;
+    color: #ffffff;
+    font-weight: 500; }
+    .content .btn-group #equally:hover {
+      background: #286ca7; }
