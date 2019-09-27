@@ -69,6 +69,9 @@ body {
   font-weight: 400;
   color: #3b3b3b; }
 
+b {
+  font-weight: 700; }
+
 .wrapper {
   position: fixed;
   top: 0;
@@ -94,17 +97,21 @@ body {
   position: relative; }
   .content #variables {
     max-width: 450px;
-    font-family: monospace;
+    font-family: "Courier New", monospace;
     margin-top: 40px;
     font-weight: 400;
     font-size: 16px; }
     .content #variables b {
-      font-size: 18px;
-      font-weight: 700; }
+      font-size: 18px; }
+    .content #variables table {
+      max-width: 420px; }
+      .content #variables table td {
+        padding: 0 10px; }
   .content #display {
     display: block;
     width: 100%;
-    font-family: 'Roboto', sans-serif;
+    max-width: 420px;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
     font-size: 30px;
     font-weight: 400;
     text-align: right;
@@ -128,21 +135,16 @@ body {
     padding: 5px 20px;
     text-align: right;
     font-size: 15px; }
-    .content #history b {
-      font-weight: 700; }
   .content #status {
     height: 26px;
     padding: 5px 20px;
     margin-bottom: 5px;
     text-align: right;
     font-size: 15px; }
-    .content #status b {
-      font-weight: 700; }
   .content .btn {
     cursor: pointer;
     width: 80px;
     padding: 12px 0;
-    /*margin: 5px;*/
     text-align: center;
     border: 1px solid #dddddd;
     background: #ffffff;
