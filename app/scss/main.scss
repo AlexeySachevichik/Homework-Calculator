@@ -1,5 +1,8 @@
 @import "reset";
 
+$font_sans: 'Roboto', Arial, Helvetica, sans-serif;
+$font_mono: 'Courier New', monospace;
+
 $font01: #3b3b3b;
 $border01: 1px solid #dddddd;
 
@@ -13,7 +16,7 @@ $acent01: #3276b1;
 $acent02: #285e8e;
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: $font_sans;
     font-size: 22px;
     font-weight: 400;
     color: $font01;
@@ -153,10 +156,10 @@ body {
                 }
 
                 &:hover {
-                    background: $back01 - 5;
+                    background: #e9e9e9;
 
                     &.none {
-                        background: $back02 - 5;
+                        background: #fafafa;
                     }
                 }
             }
